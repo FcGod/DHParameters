@@ -53,6 +53,7 @@ namespace DH
         std::cout << "\n";
     }
 
+    //Note: I know I should use better loop naming but its fine for a personal small project.
     Matrix multiplyMatrices(const Matrix& first, const Matrix& second)
     {
         Matrix result;
@@ -92,16 +93,10 @@ namespace DH
         }
 
         result = multiplyMatrices(nr1, nr2);
-        printMatrix(result);
-
         result = multiplyMatrices(result, nr3);
-        printMatrix(result);
         result = multiplyMatrices(result, nr4);
-        printMatrix(result);
         result = multiplyMatrices(result, nr5);
-        printMatrix(result);
         result = multiplyMatrices(result, nr6);
-        printMatrix(result);
 
         return result;
     }
