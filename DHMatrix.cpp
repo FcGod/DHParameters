@@ -24,7 +24,7 @@ namespace DH
 
         transformMatrix.data[1][0] = (std::abs(sin(theta))                < tolerance)      ? 0.0 : sin(theta);
         transformMatrix.data[1][1] = (std::abs(cos(theta) * cos(alpha))   < tolerance)      ? 0.0 : cos(theta) * cos(alpha);
-        transformMatrix.data[1][2] = (std::abs(-cos(theta) * sin(alpha))  < tolerance)      ? 0.0 : -cos(theta) * sin(alpha); // ISSUE
+        transformMatrix.data[1][2] = (std::abs(-cos(theta) * sin(alpha))  < tolerance)      ? 0.0 : -cos(theta) * sin(alpha);
         transformMatrix.data[1][3] = (std::abs(sin(theta))                < tolerance)      ? 0.0 : r * sin(theta);
 
         transformMatrix.data[2][0] =                                                        0;
@@ -53,50 +53,28 @@ namespace DH
         std::cout << "\n";
     }
 
-    //Note: I know I should use better loop naming but its fine for a personal small project.
-    Matrix multiplyMatrices(const Matrix& first, const Matrix& second)
+    double randomnr()
     {
-        Matrix result;
-        //Make it 0 only.
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                result.data[i][j] = 0;
-            }
-        }
-
-        //Cursed fucking triple for loop. Hate it.
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                for (int k = 0; k < 4; k++)
-                {
-                    result.data[i][j] += first.data[i][k] * second.data[k][j];
-                }
-            }
-        }
-        return result;
+        return rand() % 10 + 1;
     }
 
-    Matrix calculateFinal(const Matrix& nr1, const Matrix& nr2, const Matrix& nr3, const Matrix& nr4, const Matrix& nr5, const Matrix& nr6)
+    Matrix fill()
+    {
+        Matrix temp;
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                temp.data[i][j] = randomnr();
+
+        return temp;
+    }
+
+    Matrix calculateFinal(const Matrix& T1, const Matrix& T2, const Matrix& T3, const Matrix& T4, const Matrix& T5, const Matrix& T6)
     {
         Matrix result;
-        //0 it.
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                result.data[i][j] = 0;
-            }
-        }
+       
+        result = ((((T1 * T2) * T3) * T4) * T5) * T6;
+        printMatrix(result);
 
-        result = multiplyMatrices(nr1, nr2);
-        result = multiplyMatrices(result, nr3);
-        result = multiplyMatrices(result, nr4);
-        result = multiplyMatrices(result, nr5);
-        result = multiplyMatrices(result, nr6);
 
         return result;
     }
